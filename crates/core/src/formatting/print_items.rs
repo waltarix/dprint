@@ -3,6 +3,8 @@ use std::cell::UnsafeCell;
 use std::mem;
 use std::rc::Rc;
 
+use unicode_width::UnicodeWidthStr;
+
 use super::condition_resolvers;
 use super::printer::Printer;
 use super::thread_state;
@@ -1076,7 +1078,7 @@ pub struct StringContainer {
 impl StringContainer {
   /// Creates a new string container.
   pub fn new(text: Cow<'static, str>) -> Self {
-    let char_count = text.chars().count() as u32;
+    let char_count = text.width() as u32;
     Self { text, char_count }
   }
 }
