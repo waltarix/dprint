@@ -13,3 +13,12 @@ exclude = [
 [profile.dev]
 # disabled to decrease size of ./target folder
 debug = 0
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = 3
+strip = true
+
+[patch.crates-io]
+unicode-width = { git = "https://github.com/waltarix/unicode-width", tag = "v0.1.10-custom" }
