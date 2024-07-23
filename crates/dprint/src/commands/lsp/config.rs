@@ -6,6 +6,7 @@ use std::rc::Rc;
 use anyhow::Result;
 
 use crate::configuration::get_default_config_file_in_ancestor_directories;
+use crate::configuration::get_default_config_file_in_xdg_config_directory;
 use crate::configuration::resolve_config_from_path;
 use crate::environment::CanonicalizedPathBuf;
 use crate::environment::Environment;
@@ -37,7 +38,11 @@ impl<TEnvironment: Environment> LspPluginsScopeContainer<TEnvironment> {
   }
 
   pub async fn resolve_by_path(&self, dir_path: &Path) -> Result<Option<Rc<PluginsScope<TEnvironment>>>> {
-    let Some(config_path) = get_default_config_file_in_ancestor_directories(&self.environment, dir_path)? else {
+    let config_path = if let Some(config_path_by_ancestor) = get_default_config_file_in_ancestor_directories(&self.environment, dir_path)? {
+      config_path_by_ancestor
+    } else if let Some(config_path_by_xdg) = get_default_config_file_in_xdg_config_directory(&self.environment)? {
+      config_path_by_xdg
+    } else {
       return Ok(None);
     };
     let cell = {
