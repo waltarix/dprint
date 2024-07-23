@@ -3210,3 +3210,8 @@ dependencies = [
  "cc",
  "pkg-config",
 ]
+
+[[patch.unused]]
+name = "unicode-width"
+version = "0.1.13"
+source = "git+https://github.com/waltarix/unicode-width?tag=v0.1.13-custom#cb761a517d4a9405d3114c00d21440ce345a9484"
