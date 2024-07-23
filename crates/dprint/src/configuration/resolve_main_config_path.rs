@@ -39,6 +39,8 @@ pub async fn resolve_main_config_path<TEnvironment: Environment>(args: &CliArgs,
       }
     } else if let Some(resolved_config_path) = get_default_config_file_in_ancestor_directories(environment, environment.cwd().as_ref())? {
       resolved_config_path
+    } else if let Some(xdg_config_path) = get_default_config_file_in_xdg_config_directory(environment)? {
+      xdg_config_path
     } else {
       // just return this even though it doesn't exist
       ResolvedConfigPath {
@@ -62,6 +64,23 @@ pub async fn resolve_main_config_path<TEnvironment: Environment>(args: &CliArgs,
 
     Ok(environment.cwd())
   }
+}
+
+pub fn get_default_config_file_in_xdg_config_directory(environment: &impl Environment) -> Result<Option<ResolvedConfigPath>> {
+  let config_home = match std::env::var_os("XDG_CONFIG_HOME") {
+    Some(dir) => dir.into(),
+    None => dirs::home_dir().unwrap().join(".config"),
+  };
+
+  let xdg_config_dir = config_home.join("dprint");
+  if let Some(config_fiile) = get_config_file_in_dir(xdg_config_dir, environment) {
+    return Ok(Some(ResolvedConfigPath {
+      resolved_path: ResolvedPath::local(environment.canonicalize(config_fiile)?),
+      base_path: environment.cwd(),
+    }));
+  }
+
+  Ok(None)
 }
 
 pub fn get_default_config_file_in_ancestor_directories(environment: &impl Environment, start_dir: &Path) -> Result<Option<ResolvedConfigPath>> {
