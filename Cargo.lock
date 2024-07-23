@@ -425,7 +425,7 @@ dependencies = [
  "encode_unicode",
  "lazy_static",
  "libc",
- "unicode-width 0.1.12",
+ "unicode-width 0.1.14",
  "windows-sys 0.52.0",
 ]
 
@@ -435,7 +435,7 @@ version = "0.8.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "55d8a913e62f6444b79e038be3eb09839e9cfc34d55d85f9336460710647d2f6"
 dependencies = [
- "unicode-width 0.1.12",
+ "unicode-width 0.1.14",
  "vte",
 ]
 
@@ -904,7 +904,7 @@ dependencies = [
  "serde_json",
  "tokio",
  "tokio-util",
- "unicode-width 0.1.12",
+ "unicode-width 0.1.14",
  "winapi",
 ]
 
@@ -2769,15 +2769,13 @@ dependencies = [
 
 [[package]]
 name = "unicode-width"
-version = "0.1.12"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "68f5e5f3158ecfd4b8ff6fe086db7c8467a2dfdac97fe420f2b7c4aa97af66d6"
+version = "0.1.14"
+source = "git+https://github.com/waltarix/unicode-width?tag=v0.1.14-custom#78d46d6758ef65310e7f3d25714fbf7be9fed660"
 
 [[package]]
 name = "unicode-width"
 version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1fc81956842c57dac11422a97c3b8195a1ff727f06e85c84ed2e8aa277c9a0fd"
+source = "git+https://github.com/waltarix/unicode-width?tag=v0.2.0-custom-r1#218767c448c952bec29a8f1f761157328c3d51c6"
 
 [[package]]
 name = "untrusted"

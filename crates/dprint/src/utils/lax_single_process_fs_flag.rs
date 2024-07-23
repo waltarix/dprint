@@ -138,11 +138,10 @@ struct LaxSingleProcessFsFlagInner<TEnvironment: Environment> {
 
 impl<TEnvironment: Environment> Drop for LaxSingleProcessFsFlagInner<TEnvironment> {
   fn drop(&mut self) {
-    use fs3::FileExt;
     // kill the poll thread
     self.finished_token.cancel();
     // release the file lock
-    if let Err(err) = self.fs_file.unlock() {
+    if let Err(err) = fs3::FileExt::unlock(&self.fs_file) {
       log_debug!(self.environment, "Failed releasing lock for {}. {:#}", self.file_path.display(), err);
     }
   }
